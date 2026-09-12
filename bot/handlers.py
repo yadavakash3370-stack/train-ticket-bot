@@ -47,6 +47,7 @@ class JourneyStates(StatesGroup):
     waiting_from = State()
     waiting_to = State()
     waiting_date = State()
+    passenger = State()
 
 
 class AdminStates(StatesGroup):
