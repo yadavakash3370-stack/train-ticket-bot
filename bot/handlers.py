@@ -54,6 +54,10 @@ class AdminStates(StatesGroup):
     waiting_user_id = State()
     waiting_message = State()
     waiting_broadcast = State()
+    
+    # Compatibility states
+    message_user = State()
+    broadcast = State()
 
 
 # ==========================================================
