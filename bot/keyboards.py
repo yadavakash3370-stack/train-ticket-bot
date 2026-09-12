@@ -1,398 +1,137 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def button(text, callback_data, style=None):
+def btn(text, callback_data=None, style=None, url=None):
+    kwargs = {"text": text}
 
-    kwargs = {
-        "text": text,
-        "callback_data": callback_data,
-    }
+    if callback_data:
+        kwargs["callback_data"] = callback_data
 
     if style:
         kwargs["style"] = style
 
+    if url:
+        kwargs["url"] = url
+
     return InlineKeyboardButton(**kwargs)
 
 
-def main_menu():
+def main_menu(user_id=None, admin_id=None):
+    buttons = [
+        [
+            btn("🚆 Search Train", "search_train", "primary"),
+            btn("👤 My Profile", "profile", "primary"),
+        ],
+        [
+            btn("🧳 My Journey", "my_journey", "primary"),
+            btn("📅 My Bookings", "my_bookings", "primary"),
+        ],
+        [
+            btn("🔔 Alerts", "alerts", "primary"),
+            btn("💾 Saved Journeys", "saved_journeys"),
+        ],
+    ]
 
+    # Sirf admin ko Admin Panel
+    if user_id is not None and admin_id is not None:
+        if str(user_id) == str(admin_id):
+            buttons.append([
+                btn("⚙️ Admin Panel", "admin_panel", "danger")
+            ])
+
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def back_menu():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [btn("⬅️ Back to Menu", "back_menu", "primary")]
+        ]
+    )
+
+
+def admin_menu():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                button(
-                    "👤 Passenger Profile",
-                    "profile",
-                    "primary",
-                )
+                btn("📊 Stats", "admin_stats", "primary"),
+                btn("👥 Users", "admin_users", "primary"),
             ],
             [
-                button(
-                    "🚆 Book Ticket",
-                    "book_ticket",
-                    "success",
-                ),
-                button(
-                    "🔎 Search Train",
-                    "search_train",
-                    "primary",
-                ),
+                btn("📢 Broadcast", "admin_broadcast", "success"),
+                btn("💬 Message User", "admin_message", "primary"),
             ],
             [
-                button(
-                    "📋 My Journeys",
-                    "my_journeys",
-                ),
-                button(
-                    "🔔 My Alerts",
-                    "alerts",
-                ),
+                btn("🚆 Journeys", "admin_journeys", "primary"),
+                btn("🔔 Monitoring", "admin_monitoring", "primary"),
             ],
             [
-                button(
-                    "⚙️ Settings",
-                    "settings",
-                )
+                btn("📋 Logs", "admin_logs"),
+                btn("⚙️ System Status", "admin_status", "primary"),
+            ],
+            [
+                btn("⬅️ Back", "back_menu")
             ],
         ]
     )
 
 
-def back_home():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button(
-                    "🏠 Home",
-                    "home",
-                    "primary",
-                )
-            ]
-        ]
-    )
-
-
-def profile_menu():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button(
-                    "➕ Add Passenger",
-                    "add_passenger",
-                    "success",
-                )
-            ],
-            [
-                button(
-                    "📋 View Profile",
-                    "view_profile",
-                )
-            ],
-            [
-                button(
-                    "✏️ Edit Profile",
-                    "edit_profile",
-                )
-            ],
-            [
-                button(
-                    "🗑 Delete Profile",
-                    "delete_profile",
-                    "danger",
-                )
-            ],
-            [
-                button(
-                    "◀️ Back",
-                    "home",
-                )
-            ],
-        ]
-    )
-
-
-def gender_keyboard():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button("👨 Male", "gender_male", "primary"),
-                button("👩 Female", "gender_female", "primary"),
-            ],
-            [
-                button("◀️ Cancel", "profile")
-            ],
-        ]
-    )
-
-
-def berth_keyboard():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button("Lower", "berth_lower"),
-                button("Middle", "berth_middle"),
-            ],
-            [
-                button("Upper", "berth_upper"),
-                button("Side Lower", "berth_sl"),
-            ],
-            [
-                button("Side Upper", "berth_su"),
-            ],
-            [
-                button("◀️ Cancel", "profile"),
-            ],
-        ]
-    )
-
-
-def journey_menu():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button(
-                    "📍 From Station",
-                    "journey_from",
-                    "primary",
-                )
-            ],
-            [
-                button(
-                    "📍 To Station",
-                    "journey_to",
-                    "primary",
-                )
-            ],
-            [
-                button(
-                    "📅 Journey Date",
-                    "journey_date",
-                )
-            ],
-            [
-                button(
-                    "🚆 Select Train",
-                    "journey_train",
-                    "primary",
-                )
-            ],
-            [
-                button(
-                    "💺 Select Class",
-                    "journey_class",
-                )
-            ],
-            [
-                button(
-                    "👤 Passenger",
-                    "journey_passenger",
-                )
-            ],
-            [
-                button(
-                    "🔔 Availability Alert",
-                    "journey_alert",
-                )
-            ],
-            [
-                button(
-                    "✅ Save Journey",
-                    "save_journey",
-                    "success",
-                )
-            ],
-            [
-                button(
-                    "❌ Cancel",
-                    "home",
-                    "danger",
-                )
-            ],
-        ]
-    )
-
-
-def class_keyboard():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button("SL", "class_SL"),
-                button("3A", "class_3A", "primary"),
-                button("2A", "class_2A"),
-            ],
-            [
-                button("1A", "class_1A"),
-                button("CC", "class_CC"),
-                button("EC", "class_EC"),
-            ],
-            [
-                button("◀️ Back", "book_ticket"),
-            ],
-        ]
-    )
-
-
-def train_results(trains):
-
-    rows = []
+def train_list_keyboard(trains):
+    buttons = []
 
     for train in trains:
+        buttons.append([
+            btn(
+                f"🚆 {train['number']} • {train['name']}",
+                f"train_{train['number']}",
+                "primary"
+            )
+        ])
 
-        rows.append(
-            [
-                button(
-                    f"🚆 {train['number']} • {train['name']}",
-                    f"train_{train['number']}",
-                    "primary",
-                )
-            ]
-        )
+    buttons.append([
+        btn("⬅️ Back", "back_menu")
+    ])
 
-    rows.append(
-        [
-            button(
-                "🔄 Refresh",
-                "search_train",
-            ),
-            button(
-                "🏠 Home",
-                "home",
-            ),
-        ]
-    )
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=rows
-    )
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
-def booking_summary_keyboard():
-
+def class_keyboard(train_number):
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                button(
-                    "💳 Continue to Payment",
-                    "dummy_payment",
-                    "success",
-                )
+                btn("1A", f"class_{train_number}_1A", "primary"),
+                btn("2A", f"class_{train_number}_2A", "primary"),
             ],
             [
-                button(
-                    "✏️ Edit Journey",
-                    "book_ticket",
-                )
+                btn("3A", f"class_{train_number}_3A", "primary"),
+                btn("SL", f"class_{train_number}_SL"),
             ],
             [
-                button(
-                    "❌ Cancel",
-                    "home",
-                    "danger",
-                )
+                btn("⬅️ Back", "search_train")
             ],
         ]
     )
 
 
 def payment_keyboard():
-
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                button(
-                    "💳 Pay ₹1450 (DEMO)",
-                    "confirm_payment",
-                    "success",
-                )
+                btn("💳 Demo Payment", "demo_payment", "success")
             ],
             [
-                button(
-                    "❌ Cancel Payment",
-                    "home",
-                    "danger",
-                )
+                btn("❌ Cancel", "cancel_booking", "danger")
             ],
         ]
     )
 
 
-def after_booking_keyboard():
-
+def confirm_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                button(
-                    "📄 Booking Details",
-                    "booking_details",
-                    "primary",
-                )
-            ],
-            [
-                button(
-                    "🚆 New Booking",
-                    "book_ticket",
-                    "success",
-                )
-            ],
-            [
-                button(
-                    "🏠 Home",
-                    "home",
-                )
-            ],
-        ]
-    )
-
-
-def admin_menu():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button("👥 Users", "admin_users", "primary"),
-                button("📊 Statistics", "admin_stats"),
-            ],
-            [
-                button(
-                    "💬 Message User",
-                    "admin_message",
-                    "success",
-                ),
-                button(
-                    "📢 Broadcast",
-                    "admin_broadcast",
-                ),
-            ],
-            [
-                button("🚆 Journeys", "admin_journeys"),
-                button("🔎 Monitoring", "admin_monitoring"),
-            ],
-            [
-                button("📝 Logs", "admin_logs"),
-                button("🔄 System", "admin_system"),
-            ],
-            [
-                button("🏠 Home", "home"),
-            ],
-        ]
-    )
-
-
-def admin_back():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                button(
-                    "◀️ Admin Panel",
-                    "admin_panel",
-                    "primary",
-                )
+                btn("✅ Confirm Booking", "confirm_booking", "success"),
+                btn("❌ Cancel", "cancel_booking", "danger"),
             ]
         ]
     )
